@@ -9,7 +9,7 @@ class Logger:
         self.runs_in_eval = 0
         self.num_evals = 1 # counter
         self.max_return = 0
-        self.min_return = 9999999
+        self.min_return = 999999.9
 
     def write(self, agent):
         self.sum_ret += agent.total_reward
@@ -29,6 +29,9 @@ class Logger:
                 avg = float(self.total_ret)/float(self.evaluation_number)
                 print("Max reward : " + str(self.max_return) + "Min reward: " + str(self.min_return)\
                       + "Average reward in current episode: " + str(avg))
-                self.total_ret = 0.0
                 f = open("model_learn_progress.txt", "a")
-                f.write(agent.iteration+","+str(avg)+","+str(self.max_return)+","+str(self.min_return)+"\n")
+                f.write(str(agent.iteration)+","+str(avg)+","+str(self.max_return)+","\
+                        +str(self.min_return)+"\n")
+                self.total_ret = 0.0
+                self.max_return = 0.0
+                self.min_return = 999999.9

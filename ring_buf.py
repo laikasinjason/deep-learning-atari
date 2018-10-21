@@ -1,4 +1,3 @@
-
 import random
 class RingBuf:
     def __init__(self, size):
@@ -40,6 +39,6 @@ class RingBuf:
     def sample_batch(self, batch_size):
         result = []
         for x in range(batch_size):
-            # generate random number between 1 and self.size-2
-            result.append(self[random.randint(1,self.size-2)])
+            # generate random number between 0 and self.size-1
+            result.append(self[random.randint(0,self.size-1)])
         return (np.asarray(result)).transpose()
