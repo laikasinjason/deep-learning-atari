@@ -14,7 +14,7 @@ class Logger:
     def write(self, agent):
         self.sum_ret += agent.total_reward
         self.total_ret += agent.total_reward
-        if agent.is_done:
+        if agent.is_terminate:
             print ("Evaluation " + str(self.runs_in_eval) + " :" + str(self.sum_ret))
             if self.sum_ret > self.max_return:
                 self.max_return = self.sum_ret

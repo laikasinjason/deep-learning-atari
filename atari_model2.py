@@ -1,3 +1,5 @@
+import keras
+
 class Atari_Model2:
     # tensorflow backend
     def __create_model(self, n_actions, alpha = 0.00025):
@@ -17,7 +19,7 @@ class Atari_Model2:
         
 #         model = keras.models.Model(input=[frames_input, actions_input], output=filtered_output)
         model = keras.models.Model(input=[frames_input], output=output)
-        optimizer = optimizer=keras.optimizers.RMSprop(lr=0.00025, rho=0.95, epsilon=0.01)
+        optimizer = keras.optimizers.RMSprop(lr=0.00025, rho=0.95, epsilon=0.01)
         model.compile(optimizer, loss=huber_loss)
         
         return model
