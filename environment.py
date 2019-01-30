@@ -3,7 +3,7 @@ import keras
 
 
 def fit_batch(model, target_model, start_states, actions, rewards, next_states, is_terminate, pre_process, 
-              gamma = 0.99):
+              gamma = 0.99, learning_rate = 0.1):
     """Do one deep Q learning iteration.
     
     Params:
@@ -23,20 +23,24 @@ def fit_batch(model, target_model, start_states, actions, rewards, next_states, 
     next_states = pre_process.to_float(next_states)
     start_states = pre_process.to_float(start_states)
             
-
+    # Run one fast-forward to get the Q-values for all actions
+    target = model.predict(start_states)
+    current_Q_values = target[actions.astype(bool)]
+    
     # Predict the Q values of the next states. Passing ones as the mask.
 #     next_Q_values = target_model.predict([next_states,  np.ones(actions.shape)])
     next_Q_values = target_model.predict(next_states)
+    
     # The Q values of the terminal states is 0 by definition, so override them
     next_Q_values[is_terminate.astype(bool)] = 0
     # The Q values of each start state is the reward + gamma * the max next state Q value
-    Q_values = rewards + gamma * np.max(next_Q_values, axis=1)
+    next_Q_values = rewards + gamma * np.max(next_Q_values, axis=1)
+    new_Q_values = (1-learning_rate) * current_Q_values + learning_rate * next_Q_values
     # Fit the keras model. Pass the actions as the mask and multiplying
     # the targets by the actions.
     
-    # Run one fast-forward to get the Q-values for all actions
-    target = model.predict(start_states)
-    target[actions.astype(bool)] = Q_values
+    # Set the new Q values to target
+    target[actions.astype(bool)] = new_Q_values
     
     loss = model.fit(start_states, target,
         epochs=1, batch_size=len(start_states), verbose=0
