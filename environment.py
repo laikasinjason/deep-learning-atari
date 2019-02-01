@@ -1,5 +1,7 @@
 from keras import backend as K
 import keras
+import random
+import numpy as np
 
 
 def fit_batch(model, target_model, start_states, actions, rewards, next_states, is_terminate, pre_process, 
@@ -84,7 +86,7 @@ def q_iteration(env, model, target_model, agent, iteration, ring_buf, one_hot_en
 
     # Sample and fit
     batch = ring_buf.sample_batch(32)
-    loss = fit_batch(model, target_model, batch[0], onehot_encoder.transform(batch[1].reshape(-1,1)), 
+    loss = fit_batch(model, target_model, batch[0], one_hot_encoder.transform(batch[1].reshape(-1,1)), 
               batch[2], batch[3], batch[4], pre_process)
     return loss
 
