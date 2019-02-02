@@ -91,7 +91,7 @@ def q_iteration(env, model, target_model, agent, iteration, ring_buf, one_hot_en
     return loss
 
 
-def evaluate(logger, model, agent, pre_process):
+def evaluate(logger, model, agent, pre_process, env):
 
     print("Evaluation started.")
     for i in range(0, logger.evaluation_number):
