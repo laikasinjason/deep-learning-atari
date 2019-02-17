@@ -4,7 +4,9 @@ Atari game - deep Q learning neural network (Keras based)
 The model used here is mostly following the paper by DeepMind:
 [Playing Atari with Deep Reinforcement Learning](https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf)
 
-Demo video attached in the repository.
+*Demo gif after training.*
+
+<img src="asset/atari_showcase.gif" width="500">
 
 
 ## Parmeter
